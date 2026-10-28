@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { BrowserRouter, Link, Navigate, Route, Routes, useParams } from 'react-router-dom'
 
-const API_URL = `${(import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '')}/api`
+const API_URL = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL.replace(/\/+$/, '')}/api`
+  : '/api'
 
 const inputClass =
   'w-full rounded-xl border border-white/10 bg-[#151513] px-4 py-3 text-sm text-stone-100 outline-none transition placeholder:text-stone-600 focus:border-lime-300/70'
