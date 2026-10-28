@@ -56,6 +56,29 @@ npm.cmd run dev
 
 The API listens at `http://localhost:5000`. Keep this terminal running too. The frontend can open without the API, but profile requests will show an error until the API connects to MongoDB.
 
+## Deploy the API to Render
+
+1. Push the project to GitHub and connect the repository in Render using **New → Web Service**.
+2. Set **Root Directory** to `server`.
+3. Set **Build Command** to `npm install` and **Start Command** to `npm start`.
+4. Add `MONGO_URI` under the service's environment variables. Use your MongoDB Atlas connection URI as a secret; do not commit it or put it in a frontend variable.
+5. Create the service and wait for its deploy to finish. Copy its public URL, for example `https://your-service.onrender.com`.
+
+Render provides `PORT` automatically. The server connects to MongoDB before it starts accepting requests. Ensure your Atlas network access settings allow connections from the Render service.
+
+> Render's free web services may spin down after inactivity, so the first request can be delayed. Choose a plan that supports always-on services if you require guaranteed 24/7 availability.
+
+## Deploy the frontend to Vercel
+
+The frontend is configured for Vercel SPA routing. Deploy the API to Render first so you can set the production API URL in Vercel.
+
+1. Import the GitHub repository in Vercel.
+2. Set **Root Directory** to `client` and use the **Vite** framework preset. The build command is `npm run build`; the output directory is `dist`.
+3. Add the environment variable `VITE_API_URL` using the Render service's public base URL (for example, `https://your-service.onrender.com`, without a trailing slash or `/api`).
+4. Deploy or redeploy the Vercel project after setting `VITE_API_URL`.
+
+The frontend uses `http://localhost:5000` as its default API during local development. Vite embeds `VITE_API_URL` at build time for production. Do not put the MongoDB URI in a `VITE_` variable; frontend variables are public.
+
 ## Troubleshooting
 
 - **The browser shows source code, a blank page, or a MIME/module error:** make sure you opened the URL printed by `npm.cmd run dev`, not the `client/index.html` file or Live Server URL.
