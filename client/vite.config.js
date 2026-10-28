@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     proxy: {
-      '/api': 'https://linktree-clone.onrender.com',
+      '/api': 'https://linktree-clone-4ufb.onrender.com',
     },
   },
 })
